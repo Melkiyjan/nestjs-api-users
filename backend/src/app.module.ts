@@ -1,6 +1,11 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
+import { GraphQLModule } from "@nestjs/graphql";
+import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
+
+
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -9,19 +14,25 @@ import { TypeOrmModule } from "@nestjs/typeorm";
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: async (config: ConfigService) => <TypeOrmModule>({
-        type: config.get<'aurora-data-api'>('TYPEORM_CONNECTION'),
-        username: config.get<string>('TYPEORM_USERNAME'),
-        password: config.get<string>('TYPEORM_PASSWORD'),
-        database: config.get<string>('TYPEORM_DATABASE'),
-        port: config.get<number>('TYPEORM_PORT'),
+        type: config.get<string>('DB_CONNECTION'),
+        username: config.get<string>('DB_USERNAME'),
+        password: config.get<string>('DB_PASSWORD'),
+        database: config.get<string>('DB_DATABASE'),
+        port: config.get<number>('DB_PORT'),
         entitles: [__dirname + 'dist/**/*.entity{.ts,.js}'],
-        synchronize: true,
+        migrations:['src/migrations/*{.ts,.js}'],
         autoLoaderEntities: true,
         logging: true
       })
-    })
-  ],
-  providers: [],
+    }),
+    UsersModule,
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      autoSchemaFile: 'schema.gql',
+      sortSchema: true,
+      playground: true,
+    }),
+  ]
 })
 export class AppModule {
 }
