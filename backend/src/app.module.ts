@@ -19,8 +19,8 @@ import { UsersModule } from './users/users.module';
         password: config.get<string>('DB_PASSWORD'),
         database: config.get<string>('DB_DATABASE'),
         port: config.get<number>('DB_PORT'),
-        entitles: [__dirname + 'dist/**/*.entity{.ts,.js}'],
-        migrations:['src/migrations/*{.ts,.js}'],
+        entitles: [__dirname + 'dist/**/*.entity.js'],
+        migrations:['dist/migrations/*.js'],
         autoLoaderEntities: true,
         logging: true
       })

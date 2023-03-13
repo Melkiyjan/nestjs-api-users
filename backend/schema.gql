@@ -4,6 +4,9 @@
 
 input CreateUserInput {
   email: String!
+  firstName: String!
+  lastName: String!
+  password: String!
 }
 
 type Mutation {

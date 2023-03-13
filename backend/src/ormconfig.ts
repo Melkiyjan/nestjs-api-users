@@ -1,18 +1,17 @@
 import { DataSource } from "typeorm";
+import * as dotenv from 'dotenv'
 
-export const connectionSource = new DataSource({
+const env = dotenv.config({path: './../.env'}).parsed as any;
+
+export default new DataSource({
     migrationsTableName: 'migrations',
-    type: process.env.DB_CONNECTION,
-    port: process.env.DB_PORT,
-    username: process.env.DB_USERNAME,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASE,
+    type: 'postgres',
+    port: parseInt(env.DB_PORT),
+    username: env.DB_USERNAME,
+    password: env.DB_PASSWORD,
+    database: env.DB_DATABASE,
     logging: false,
-    name: 'default',
-    entities: ['src/**/**.entity{.ts,.js}'],
-    migrations: ['src/migrations/**/*{.ts,.js}'],
-    subscribers: ['src/subscriber/**/*{.ts,.js}'],
+    entities: ['dist/**/**.entity.js'],
+    migrations: ['dist/migrations/**/*.js'],
+    subscribers: ['dist/subscriber/**/*.js'],
 });
-
-await connectionSource.initialize();
-
