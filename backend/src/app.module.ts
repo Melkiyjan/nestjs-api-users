@@ -15,6 +15,7 @@ import { UsersModule } from './users/users.module';
       inject: [ConfigService],
       useFactory: async (config: ConfigService) => <TypeOrmModule>({
         type: config.get<string>('DB_CONNECTION'),
+        host: config.get<string>('DB_HOST'),
         username: config.get<string>('DB_USERNAME'),
         password: config.get<string>('DB_PASSWORD'),
         database: config.get<string>('DB_DATABASE'),
