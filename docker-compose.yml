@@ -6,10 +6,28 @@ services:
     image: library/postgres:14.0-alpine
     restart: always
     environment:
-      - POSTGRES_USER=${TYPEORM_USERNAME}
-      - POSTGRES_PASSWORD=${TYPEORM_PASSWORD}
-      - POSTGRES_DB=${TYPEORM_DATABASE}
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_DATABASE}
     volumes:
       - ./pgdata:/var/lib/postgresql/data
     ports:
-      - ${TYPEORM_PORT}:${TYPEORM_PORT}
+      - ${DB_PORT}:${DB_PORT}
+#перезапуск приложения поискать
+  backend:
+    container_name: backend-nest
+    build:
+      context: ./backend
+    depends_on:
+      - db
+    environment:
+      - API_PORT=${API_PORT}
+      - API_HOST=${API_HOST}
+      - DB_CONNECTION=${DB_CONNECTION}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_DATABASE=${DB_DATABASE}
+      - DB_PORT=${DB_PORT}
+      - DB_HOST=db
+    ports:
+      - ${API_PORT}:${API_PORT}

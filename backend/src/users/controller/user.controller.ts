@@ -1,8 +1,9 @@
 import { Controller, Post, Body, Get } from '@nestjs/common';
 
-import { CreateUserInput } from "../users/inputs/create-user.input";
-import { UserResolver } from "../users/resolves/user/user.resolver";
-import { UserEntity } from "../entities/user.entity";
+import { UserResolver } from "../resolves/user/user.resolver";
+import { UserEntity } from "../../entities/user.entity";
+import { CreateUserInput } from "../inputs/create-user.input";
+
 
 @Controller('user')
 export class UserController {
@@ -10,6 +11,7 @@ export class UserController {
 
     @Post('/registration')
     async create(@Body() createUserInput: CreateUserInput): Promise<UserEntity> {
+
         return this.userResolver.createUser(createUserInput);
     }
 

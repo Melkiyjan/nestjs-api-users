@@ -11,7 +11,7 @@ export default new DataSource({
     password: env.DB_PASSWORD,
     database: env.DB_DATABASE,
     logging: false,
-    entities: ['dist/**/**.entity.js'],
-    migrations: ['dist/migrations/**/*.js'],
-    subscribers: ['dist/subscriber/**/*.js'],
+    entities: ['dist/entities/**/*.entity.js'],
+    // entities: [__dirname + '/../**/*.entity.js'] ,
+    migrations: ['dist/migrations/**/*.js']
 });
