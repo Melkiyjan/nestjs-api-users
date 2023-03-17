@@ -6,9 +6,6 @@ import * as bcrypt from 'bcrypt'
 import { UserEntity } from "../../../entities/user.entity";
 import { CreateUserInput } from "../../inputs/create-user.input";
 
-
-
-
 @Injectable()
 export class UserService {
     constructor(
